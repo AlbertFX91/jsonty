@@ -59,7 +59,23 @@ class SimpleTypesDump(unittest.TestCase):
 
         self.assertEqual(res, expected)
 
+    def test_type_not_reconized_exception(self):
+        class A():
+            value: str
+            def __init__(self, value: str):
+                self.value = value
 
+        class B(jsonty.Model):
+            number: int
+            a_object: A
+            def __init__(self, number: str):
+                self.number = number
+                self.a_object = A(value= 'Oops')    
+
+        # B Object 
+        b = B(number=1)
+
+        self.assertRaises(jsonty.exceptions.TypeNotReconized, b.dumps)
 
 if __name__ == '__main__':
     unittest.main()

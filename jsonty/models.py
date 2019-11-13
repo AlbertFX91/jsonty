@@ -6,12 +6,18 @@ import json
 # Python typing
 from typing import List, Dict, Type
 
+# Jsonty models
+from .exceptions import TypeNotReconized
+
+# Standard data types
+_STANDARD_DATA_TYPES = {int, float, bool, str}
+
 class Model():
     def dumps(self, **kwargs):
         return json.dumps(self, cls=ModelEncode, **kwargs)
 
-
 class ModelEncode(json.JSONEncoder):
+
 
     @staticmethod
     def get_dictionary_annotations(obj: any, cls_type: type):
@@ -32,8 +38,11 @@ class ModelEncode(json.JSONEncoder):
             # If the field is a subclass of the model, recovering its annotations
             if issubclass(f_cls, Model):
                 res[f_name] = ModelEncode.get_dictionary_annotations(obj, f_cls)
-            else:
+            elif f_cls in _STANDARD_DATA_TYPES:
                 res[f_name] = getattr(obj, f_name, None)
+            else:
+                raise TypeNotReconized('{0}: {1} -> {2}'.format(cls_type, f_name, f_cls))
+
         return res
 
     def default(self, obj): # pylint: disable=E0202
