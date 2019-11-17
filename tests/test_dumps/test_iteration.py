@@ -26,7 +26,28 @@ class InterationDump(unittest.TestCase):
             self.name = name
             self.age = age
             self.subjects = subjects
+
+    class ExampleSet(jsonty.Model):
+        ids: set
+
+        def __init__(self, ids):
+            self.ids = ids
+
+        def __hash__(self):
+            return hash(tuple(self.ids))
+
     
+    class ExampleDict(jsonty.Model):
+        ids: dict
+
+        def __init__(self, ids):
+            self.ids = ids
+
+    class ExampleInt(jsonty.Model):
+        value: int
+
+        def __init__(self, value):
+            self.value = value
 
     def test_subject(self):
         """ Check that the Subject class constructor works """
@@ -100,6 +121,58 @@ class InterationDump(unittest.TestCase):
                     'grade': s2.grade
                 }
             ]
+        })
+        
+        # Dumps operation
+        res = obj.dumps()
+        
+        self.assertEqual(res, expected)
+
+    def test_set_model(self):
+        """ Check that a Model with a set attribute can be dumped """
+        # Args
+        ids = [1, 2, 3, 4, 5, 6, 7, 8]
+        # Object construction
+        obj = self.ExampleSet(ids=ids)
+        # Expected result
+        expected = json.dumps({
+            'ids': ids
+        })
+        
+        # Dumps operation
+        res = obj.dumps()
+        
+        self.assertEqual(res, expected)
+
+
+    def test_dict_model(self):
+        """ Check that a Model with a dictionary attribute can be dumped """
+        # Args
+        ids = {'arg0': 5, 'arg1': 2, 'arg2': [5, 9, 12]}
+        # Object construction
+        obj = self.ExampleDict(ids=ids)
+        # Expected result
+        expected = json.dumps({
+            'ids': ids
+        })
+        
+        # Dumps operation
+        res = obj.dumps()
+        
+        self.assertEqual(res, expected)
+
+    def test_iter_with_model(self):
+        """ Check that a Model with a dictionary attribute can be dumped """
+        # Args
+        int_model = self.ExampleInt(value=8)
+        ids = {1, 4, 6, int_model}
+        # Object construction
+        obj = self.ExampleSet(ids=ids)
+        # Expected result
+        expected = json.dumps({
+            'ids': [1, 4, 6, {
+                'value': int_model.value
+            }]
         })
         
         # Dumps operation

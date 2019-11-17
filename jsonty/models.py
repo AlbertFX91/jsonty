@@ -31,6 +31,9 @@ class ModelEncode(json.JSONEncoder):
         return getattr(obj, f_name, None)
 
     def on_iterable_not_dict_data_type(self, obj, cls_type, f_name, f_cls):
+        return list(getattr(obj, f_name, None))
+        
+    def on_dictionary_data_type(self, obj, cls_type, f_name, f_cls):
         return getattr(obj, f_name, None)
 
     def get_dictionary_annotations(self, obj: any, cls_type: type):
@@ -57,6 +60,9 @@ class ModelEncode(json.JSONEncoder):
             # If the class is an iterable but not a dict
             elif f_cls in _ITERABLE_NOT_DICT_DATA_TYPES:
                 res[f_name] = self.on_iterable_not_dict_data_type(obj, cls_type, f_name, f_cls)
+            # If the class is a dictionary
+            elif f_cls is dict:
+                res[f_name] = self.on_dictionary_data_type(obj, cls_type, f_name, f_cls)
             else:
                 raise TypeNotReconized('{0}: {1} -> {2}'.format(cls_type, f_name, f_cls))
 
