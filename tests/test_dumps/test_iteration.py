@@ -27,8 +27,8 @@ class InterationDump(unittest.TestCase):
             self.age = age
             self.subjects = subjects
 
-    class ExampleSet(jsonty.Model):
-        ids: set
+    class ExampleList(jsonty.Model):
+        ids: list
 
         def __init__(self, ids):
             self.ids = ids
@@ -133,7 +133,7 @@ class InterationDump(unittest.TestCase):
         # Args
         ids = [1, 2, 3, 4, 5, 6, 7, 8]
         # Object construction
-        obj = self.ExampleSet(ids=ids)
+        obj = self.ExampleList(ids=ids)
         # Expected result
         expected = json.dumps({
             'ids': ids
@@ -165,9 +165,9 @@ class InterationDump(unittest.TestCase):
         """ Check that a Model with a dictionary attribute can be dumped """
         # Args
         int_model = self.ExampleInt(value=8)
-        ids = {1, 4, 6, int_model}
+        ids = [1, 4, 6, int_model]
         # Object construction
-        obj = self.ExampleSet(ids=ids)
+        obj = self.ExampleList(ids=ids)
         # Expected result
         expected = json.dumps({
             'ids': [1, 4, 6, {
