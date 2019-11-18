@@ -1,5 +1,4 @@
-# 
-Automatic custom class JSON serialization/deserialization [![Build Status](https://travis-ci.com/AlbertFX91/jsonty.svg?branch=master)](https://travis-ci.com/AlbertFX91/jsonty)
+# Automatic custom class JSON serialization/deserialization [![Build Status](https://travis-ci.com/AlbertFX91/jsonty.svg?branch=master)](https://travis-ci.com/AlbertFX91/jsonty)
 
 ## jsonty, An automatic JSON serializaton/deserialization
 
