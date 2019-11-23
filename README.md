@@ -5,7 +5,6 @@
 > Do. Or do not.
 There is not try.
 
-> -- Yoda, The Empire Strikes Back<br>
 
 [![Travis (.org)](https://img.shields.io/travis/AlbertFX91/jsonty)](https://img.shields.io/travis/AlbertFX91/jsonty)
 [![GitHub issues](https://img.shields.io/github/issues-raw/AlbertFX91/jsonty)](https://github.com/AlbertFX91/jsonty/issues)
