@@ -1,29 +1,20 @@
 # -*- coding: utf-8 -*-
 
+# Python core imports
+import unittest
+import json
+
+# Jsonty import
 from ..context import jsonty
 
-import unittest
-
-import json
+# Test models
+import tests.util.models as models
 
 class SimpleTypesDump(unittest.TestCase):
     """Dump test operation with simple attributes via annotations"""
 
-    class Person(jsonty.Model):
-        name: str
-        age: int
-        height: float
-        working: bool
-
-        def __init__(self, name: str, age: str, height: float, working: bool):
-            self.name = name
-            self.age = age
-            self.height = height
-            self.working = working
-    
-
     def test_constructor(self):
-        """ Check that the Person class constructor works """
+        """ Test that the Adult class constructor works """
         # Args
         name = 'Mathew'
         age = 24
@@ -31,12 +22,12 @@ class SimpleTypesDump(unittest.TestCase):
         working = True
 
         # Object construction
-        obj = self.Person(name=name, age=age, height=height, working=working)
+        obj = models.Adult(name=name, age=age, height=height, working=working)
         # Constructor class works
         self.assertIsNotNone(obj)
 
     def test_person_dump(self):
-        """ Check that the Person class can be dumped into a json via annotations """
+        """ Test that the Adult class can be dumped into a json via annotations """
         # Args
         name = 'Mathew'
         age = 24
@@ -44,7 +35,7 @@ class SimpleTypesDump(unittest.TestCase):
         working = True
 
         # Object construction
-        obj = self.Person(name=name, age=age, height=height, working=working)
+        obj = models.Adult(name=name, age=age, height=height, working=working)
         
         # Expected result
         expected = json.dumps({
@@ -59,23 +50,12 @@ class SimpleTypesDump(unittest.TestCase):
 
         self.assertEqual(res, expected)
 
-    def test_type_not_reconized_exception(self):
-        class A():
-            value: str
-            def __init__(self, value: str):
-                self.value = value
+    def test_type_not_reconized_exception(self):  
+        """ Test that when a class has a non model object, an excetion is raised """
 
-        class B(jsonty.Model):
-            number: int
-            a_object: A
-            def __init__(self, number: str):
-                self.number = number
-                self.a_object = A(value= 'Oops')    
+        oops = models.ClassWithNoModel(number=1)
 
-        # B Object 
-        b = B(number=1)
-
-        self.assertRaises(jsonty.exceptions.TypeNotReconized, b.dumps)
+        self.assertRaises(jsonty.exceptions.TypeNotReconized, oops.dumps)
 
 if __name__ == '__main__':
     unittest.main()

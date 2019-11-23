@@ -1,78 +1,42 @@
 # -*- coding: utf-8 -*-
 
+# Python core imports
+import unittest
+import json
+
+# Jsonty import
 from ..context import jsonty
 
-import unittest
-
-import json
+# Test models
+import tests.util.models as models
 
 class InterationDump(unittest.TestCase):
     """Dump test operation with simple attributes via annotations"""
 
-    class Subject(jsonty.Model):
-        name: str
-        grade: int
-
-        def __init__(self, name: str, grade: int):
-            self.name = name
-            self.grade = grade
-
-    class Student(jsonty.Model):
-        name: str
-        age: int
-        subjects: list
-
-        def __init__(self, name: str, age: int, subjects: list):
-            self.name = name
-            self.age = age
-            self.subjects = subjects
-
-    class ExampleList(jsonty.Model):
-        ids: list
-
-        def __init__(self, ids):
-            self.ids = ids
-
-        def __hash__(self):
-            return hash(tuple(self.ids))
-
-    
-    class ExampleDict(jsonty.Model):
-        ids: dict
-
-        def __init__(self, ids):
-            self.ids = ids
-
-    class ExampleInt(jsonty.Model):
-        value: int
-
-        def __init__(self, value):
-            self.value = value
-
-    def test_subject(self):
-        """ Check that the Subject class constructor works """
+    def test_toy(self):
+        """ Test that the Toy class constructor works """
         # Args
-        name = 'Maths'
-        grade = 1
+        name = 'Car'
+        uses = 5
         # Object construction
-        obj = self.Subject(name=name, grade=grade)
+        obj = models.Toy(name=name, uses=uses)
         # Constructor class works
         self.assertIsNotNone(obj)
         # Check attributes
         self.assertEqual(name, obj.name)
-        self.assertEqual(grade, obj.grade)
+        self.assertEqual(uses, obj.uses)
 
-    def test_subject_dump(self):
-        """ Check that the Subject class dumps works """
+    def test_toy_dump(self):
+        """ Test that the Toy class dumps works """
         # Args
-        name = 'Maths'
-        grade = 1
+        name = 'Car'
+        uses = 5
         # Object construction
-        obj = self.Subject(name=name, grade=grade)
+        obj = models.Toy(name=name, uses=uses)
         # Expected result
         expected = json.dumps({
             'name': name,
-            'grade': grade
+            'uses': uses
         })
 
         # Dumps operation
@@ -81,44 +45,44 @@ class InterationDump(unittest.TestCase):
         self.assertEqual(res, expected)
 
 
-    def test_student(self):
-        """ Check that the Student class constructor works """
+    def test_child(self):
+        """ Test that the Child class constructor works """
         # Args
         name = 'Mathew'
-        age = 15
-        subjects = [self.Subject(name='Maths', grade=1), self.Subject(name='English', grade=1)]
+        age = 7
+        toys = [models.Toy(name='Car', uses=5), models.Toy(name='Robot', uses=1)]
         # Object construction
-        obj = self.Student(name=name, age=age, subjects=subjects)
+        obj = models.Child(name=name, age=age, toys=toys)
         # Constructor class works
         self.assertIsNotNone(obj)
         # Check attributes
         self.assertEqual(name, obj.name)
         self.assertEqual(age, obj.age)
-        self.assertEqual(subjects, obj.subjects)
+        self.assertEqual(toys, obj.toys)
 
 
     def test_list_model(self):
-        """ Check that the Student with an iterable of a model class can be dumped """
+        """ Test that the Student with an iterable of a model class can be dumped """
         # Args
         name = 'Mathew'
         age = 15
-        s1 = self.Subject(name='Maths', grade=1)
-        s2 = self.Subject(name='English', grade=1)
-        subjects = [s1, s2]
+        t1 = models.Toy(name='Car', uses=5)
+        t2 = models.Toy(name='Robot', uses=1)
+        toys = [t1, t2]
         # Object construction
-        obj = self.Student(name=name, age=age, subjects=subjects)
+        obj = models.Child(name=name, age=age, toys=toys)
         # Expected result
         expected = json.dumps({
             'name': name,
             'age': age,
-            'subjects': [
+            'toys': [
                 {
-                    'name': s1.name,
-                    'grade': s1.grade
+                    'name': t1.name,
+                    'uses': t1.uses
                 },
                 {
-                    'name': s2.name,
-                    'grade': s2.grade
+                    'name': t2.name,
+                    'uses': t2.uses
                 }
             ]
         })
@@ -129,11 +93,11 @@ class InterationDump(unittest.TestCase):
         self.assertEqual(res, expected)
 
     def test_set_model(self):
-        """ Check that a Model with a set attribute can be dumped """
+        """ Test that a Model with a set attribute can be dumped """
         # Args
         ids = [1, 2, 3, 4, 5, 6, 7, 8]
         # Object construction
-        obj = self.ExampleList(ids=ids)
+        obj = models.ExampleList(ids=ids)
         # Expected result
         expected = json.dumps({
             'ids': ids
@@ -146,11 +110,11 @@ class InterationDump(unittest.TestCase):
 
 
     def test_dict_model(self):
-        """ Check that a Model with a dictionary attribute can be dumped """
+        """ Test that a Model with a dictionary attribute can be dumped """
         # Args
         ids = {'arg0': 5, 'arg1': 2, 'arg2': [5, 9, 12]}
         # Object construction
-        obj = self.ExampleDict(ids=ids)
+        obj = models.ExampleDict(ids=ids)
         # Expected result
         expected = json.dumps({
             'ids': ids
@@ -162,12 +126,12 @@ class InterationDump(unittest.TestCase):
         self.assertEqual(res, expected)
 
     def test_iter_with_model(self):
-        """ Check that a Model with a dictionary attribute can be dumped """
+        """ Test that a Model with a dictionary attribute can be dumped """
         # Args
-        int_model = self.ExampleInt(value=8)
+        int_model = models.ExampleInt(value=8)
         ids = [1, 4, 6, int_model]
         # Object construction
-        obj = self.ExampleList(ids=ids)
+        obj = models.ExampleList(ids=ids)
         # Expected result
         expected = json.dumps({
             'ids': [1, 4, 6, {
