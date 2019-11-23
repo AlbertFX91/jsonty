@@ -1,2 +1,10 @@
+# Documentation
 nose
 sphinx
+
+# Test
+pytest
+pytest-cov
+
+# Coverage
+coveralls
