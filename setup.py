@@ -13,13 +13,18 @@ with open('LICENSE') as f:
 
 setup(
     name='jsonty',
-    version='0.0.0',
-    description='Automatic custom class JSON serialization/deserialization',
+    version='0.0.1',
+    description='Automatic custom class JSON serialization and deserialization',
     long_description=readme,
+    long_description_content_type="text/markdown",
     author='Alberto Rojas',
     author_email='alberto.rojas.fndez@gmail.com',
     url='https://github.com/AlbertFX91/jsonty',
     license=license,
-    packages=find_packages(exclude=('tests', 'docs'))
+    packages=find_packages(exclude=('tests', 'docs')),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "Operating System :: OS Independent",
+    ]
 )
 
