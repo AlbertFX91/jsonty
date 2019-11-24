@@ -6,11 +6,8 @@ import re
 from setuptools import setup, find_packages
 
 
-with io.open('README.rst', "r", encoding="utf8") as f:
+with io.open('README.rst', "rt", encoding="utf8") as f:
     readme = f.read()
-
-with io.open('README.rst', "r", encoding="utf8") as f:
-    license = f.read()
 
 with io.open("jsonty/__init__.py", "rt", encoding="utf8") as f:
     version = re.search(r'__version__ = "(.*?)"', f.read()).group(1)
@@ -26,7 +23,7 @@ setup(
     author='Alberto Rojas',
     author_email='alberto.rojas.fndez@gmail.com',
     url='https://github.com/AlbertFX91/jsonty',
-    license=license,
+    license='BSD-2-Clause',
     packages=find_packages(exclude=('tests', 'docs')),
     classifiers=[
         "Programming Language :: Python :: 3",
