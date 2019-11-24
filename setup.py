@@ -1,17 +1,23 @@
 # -*- coding: utf-8 -*-
 
+import io
+import re
+
 from setuptools import setup, find_packages
 
 
-with open('README.rst') as f:
+with io.open('README.rst', "r", encoding="utf8") as f:
     readme = f.read()
 
-with open('LICENSE') as f:
+with io.open('README.rst', "r", encoding="utf8") as f:
     license = f.read()
+
+with io.open("jsonty/__init__.py", "rt", encoding="utf8") as f:
+    version = re.search(r'__version__ = "(.*?)"', f.read()).group(1)
 
 setup(
     name='jsonty',
-    version='0.0.1',
+    version=version,
     description='Automatic custom class JSON serialization and deserialization',
     project_urls={
         "Code": "https://github.com/AlbertFX91/jsonty",
