@@ -23,10 +23,6 @@ class Model():
 
 class ModelEncode(json.JSONEncoder):
 
-
-    def on_model_subclass(self, obj, f_name, f_cls):
-        return self.get_dictionary_annotations(obj, f_cls)
-
     def on_standard_data_type(self, obj, f_name, f_cls):
         return getattr(obj, f_name, None)
 
@@ -51,11 +47,8 @@ class ModelEncode(json.JSONEncoder):
         f_cls: List[type] = [annotations[f_name] for f_name in f_names]
         # Field processing
         for f_name, f_cls in zip(f_names, f_cls):
-            # If the field is a subclass of the model, recovering its annotations
-            if issubclass(f_cls, Model):
-                res[f_name] = self.on_model_subclass(obj, f_name, f_cls)
             # If the field is an standard data type, use the stadard value
-            elif f_cls in _STANDARD_DATA_TYPES:
+            if f_cls in _STANDARD_DATA_TYPES:
                 res[f_name] = self.on_standard_data_type(obj, f_name, f_cls)
             # If the class is an iterable but not a dict
             elif f_cls in _ITERABLE_NOT_DICT_DATA_TYPES:

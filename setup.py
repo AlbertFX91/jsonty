@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Learn more: https://github.com/kennethreitz/setup.py
-
 from setuptools import setup, find_packages
 
 
-with open('README.md') as f:
+with open('README.rst') as f:
     readme = f.read()
 
 with open('LICENSE') as f:
@@ -15,8 +13,10 @@ setup(
     name='jsonty',
     version='0.0.1',
     description='Automatic custom class JSON serialization and deserialization',
+    project_urls={
+        "Code": "https://github.com/AlbertFX91/jsonty",
+    },
     long_description=readme,
-    long_description_content_type="text/markdown",
     author='Alberto Rojas',
     author_email='alberto.rojas.fndez@gmail.com',
     url='https://github.com/AlbertFX91/jsonty',
