@@ -37,5 +37,43 @@ class SimpleTypesLoads(unittest.TestCase):
         self.assertEqual(obj.height, height)
         self.assertEqual(obj.working, working)
 
+    
+    def test_model_inside_model(self):  
+        """ Test that when a class has a non model object, an excetion is raised """
+        # Args
+        car_name = 'BMW'
+        year = 2010
+        driver_name = 'James'
+        # Dictionary construction
+        data = {
+            'name': driver_name,
+            'car': {
+                'name': car_name,
+                'year': year
+            }
+        }
+        # Json representation
+        json_str: str = json.dumps(data)
+        # Object loads
+        obj: models.Driver = models.Driver.loads(data=json_str)
+        # Asserts
+        self.assertEqual(obj.name, driver_name)
+        self.assertEqual(obj.car.name, car_name)
+        self.assertEqual(obj.car.year, year)
+    
+    def test_type_not_reconized_exception(self):  
+        """ Test that when a class has a non model object, an exception is raised """
+        # Dictionary construction
+        data = {
+            'number': 1,
+            'unknown_object': {
+                'value': "oops"
+            }
+        }
+        # Json representation
+        json_str: str = json.dumps(data)
+
+        self.assertRaises(jsonty.exceptions.TypeNotReconized, models.ClassWithNoModel.loads, json_str)
+
 if __name__ == '__main__':
     unittest.main()

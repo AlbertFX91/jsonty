@@ -84,3 +84,20 @@ class ClassWithNoModel(jsonty.Model):
     def __init__(self, number: str):
         self.number = number
         self.unknown_object = NoModelClass(value= 'Oops')    
+
+
+class Car(jsonty.Model):
+    name: str
+    year: int
+    
+    def __init__(self, name: str, year: int):
+        self.name = name
+        self.year = year
+
+class Driver(jsonty.Model):
+    name: str
+    car: Car
+    
+    def __init__(self, name: str, car: Car):
+        self.name = name
+        self.car = car
