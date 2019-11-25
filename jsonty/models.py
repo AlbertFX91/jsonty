@@ -18,8 +18,60 @@ _STANDARD_DATA_TYPES = {int, float, bool, str}
 _ITERABLE_NOT_DICT_DATA_TYPES = {list, set}
 
 class Model():
-    def dumps(self, **kwargs):
+    def dumps(self, **kwargs) -> str:
+        """ Convert the Model object into a json string """
         return json.dumps(self, cls=ModelEncode, **kwargs)
+
+    @classmethod
+    def loads(cls, data: str):
+        """ Convert string json representation of a model into a Model object """
+        data_dict = data
+        if type(data) == str:
+            data_dict = json.loads(data_dict)
+        # Object decode
+        res = ModelDecode().decode(data_dict, cls)
+        return res
+
+
+def get_model_annotations(cls: Type[Model]) -> Dict[str, type]:
+    res: Dict[str, type] = dict()
+
+    # Recovering all the annotations of all the parent Model classes
+    for base in cls.__bases__:
+        if issubclass(base, Model):
+            res.update(get_model_annotations(base))
+    
+    # Recovering the current Model class annotations
+    annotations: Dict[str, type] = cls.__dict__.get('__annotations__', {})
+
+    # Updating the dictionary resulted
+    res.update(annotations)
+
+    return res
+
+class ModelDecode():
+
+    def decode(self, data: dict, cls: Type[Model]) -> Type[Model]:
+        # All annotations recovery
+        annotations: Dict[str, type] = get_model_annotations(cls)
+
+        # kwargs construction
+        kwargs: Dict[str, object] = dict()
+        
+        # Kwargs population
+        for f_name, f_cls in annotations.items():
+            # If the field is an standard data type, use the stadard value
+            if f_cls in _STANDARD_DATA_TYPES:
+                kwargs[f_name] = self.on_standard_data_type(data, f_name)
+            else:
+                raise TypeNotReconized('{0}: {1} -> {2}'.format(cls, f_name, f_cls))
+
+        # Object construction
+        res: Type[Model] = cls(**kwargs)
+        return res
+
+    def on_standard_data_type(self, obj: dict, f_name: str):
+        return obj.get(f_name, None)
 
 class ModelEncode(json.JSONEncoder):
 
