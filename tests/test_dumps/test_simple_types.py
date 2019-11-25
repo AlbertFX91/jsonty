@@ -57,5 +57,30 @@ class SimpleTypesDump(unittest.TestCase):
 
         self.assertRaises(jsonty.exceptions.TypeNotReconized, oops.dumps)
 
+    def test_model_inside_model(self):  
+        """ Test that when a class has a non model object, an exception is raised """
+        # Args
+        car_name = 'BMW'
+        year = 2010
+        driver_name = 'James'
+        car = models.Car(name=car_name, year=year)
+
+        # Object construction
+        obj = models.Driver(name=driver_name, car=car)
+
+        # Expected result
+        expected = json.dumps({
+            'name': driver_name,
+            'car': {
+                'name': car_name,
+                'year': year
+            },
+        })
+
+        # Dumps operation
+        res = obj.dumps()
+
+        self.assertEqual(res, expected)
+
 if __name__ == '__main__':
     unittest.main()
