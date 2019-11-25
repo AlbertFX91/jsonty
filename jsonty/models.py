@@ -116,8 +116,6 @@ class ModelEncode(json.JSONEncoder):
     def default(self, obj): # pylint: disable=E0202
         if issubclass(type(obj), Model):
             return self.get_dictionary_annotations(obj, type(obj))
-        else:
-            return json.JSONEncoder.default(self, obj)
 
 
 
