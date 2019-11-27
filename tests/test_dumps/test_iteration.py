@@ -125,6 +125,22 @@ class IterationDump(unittest.TestCase):
         
         self.assertEqual(res, expected)
 
+    def test_tuple_model(self):
+        """ Test that a Model with a tuple attribute can be dumped """
+        # Args
+        values = (1, 2, 3, 'text', False)
+        # Object construction
+        obj = models.ExampleTuple(values=values)
+        # Expected result
+        expected = json.dumps({
+            'values': values
+        })
+        
+        # Dumps operation
+        res = obj.dumps()
+        
+        self.assertEqual(res, expected)
+
     def test_iter_with_model(self):
         """ Test that a Model with a dictionary attribute can be dumped """
         # Args
