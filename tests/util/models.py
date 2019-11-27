@@ -1,5 +1,8 @@
 from ..context import jsonty
 
+# Python modules
+from typing import List, Dict
+
 class Person(jsonty.Model):
     name: str
     age: int
@@ -101,3 +104,16 @@ class Driver(jsonty.Model):
     def __init__(self, name: str, car: Car):
         self.name = name
         self.car = car
+
+class Post(jsonty.Model):
+    title: str
+    tags: List[str]
+
+    def __init__(self, title: str, tags: List[str]):
+        self.title = title
+        self.tags = tags
+
+class Counter(jsonty.Model):
+    data: Dict[str, int]
+    def __init__(self, data: Dict[str, int]):
+        self.data = data
