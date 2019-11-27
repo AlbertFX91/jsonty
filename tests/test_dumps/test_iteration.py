@@ -10,7 +10,7 @@ from ..context import jsonty
 # Test models
 import tests.util.models as models
 
-class InterationDump(unittest.TestCase):
+class IterationDump(unittest.TestCase):
     """Dump test operation with simple attributes via annotations"""
 
     def test_toy(self):
