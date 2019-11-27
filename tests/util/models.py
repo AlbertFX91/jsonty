@@ -63,6 +63,12 @@ class ExampleInt(jsonty.Model):
     def __init__(self, value):
         self.value = value
 
+class ExampleTuple(jsonty.Model):
+    values: tuple
+
+    def __init__(self, values: tuple):
+        self.values = values
+
 
 class Adult(jsonty.Model):
         name: str
@@ -78,12 +84,14 @@ class Adult(jsonty.Model):
 
 class NoModelClass():
     value: str
+
     def __init__(self, value: str):
         self.value = value
 
 class ClassWithNoModel(jsonty.Model):
     number: int
     unknown_object: NoModelClass
+
     def __init__(self, number: str):
         self.number = number
         self.unknown_object = NoModelClass(value= 'Oops')    
@@ -115,5 +123,6 @@ class Post(jsonty.Model):
 
 class Counter(jsonty.Model):
     data: Dict[str, int]
+    
     def __init__(self, data: Dict[str, int]):
         self.data = data

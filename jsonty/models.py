@@ -15,7 +15,7 @@ from .exceptions import IterableNotAllSameType
 _STANDARD_DATA_TYPES = {int, float, bool, str}
 
 # ITERABLES EXCEPT DICT
-_ITERABLE_NOT_DICT_DATA_TYPES = {list, set}
+_ITERABLE_NOT_DICT_DATA_TYPES = {list, set, tuple}
 
 class Model():
     def dumps(self, **kwargs) -> str:
