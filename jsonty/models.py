@@ -6,7 +6,7 @@ import sys
 from collections.abc import Iterable
 
 # Python typing
-from typing import List, Dict, Type 
+from typing import List, Dict, Type, _GenericAlias
 
 # Jsonty models
 from .exceptions import TypeNotReconized
@@ -17,17 +17,6 @@ _STANDARD_DATA_TYPES = {int, float, bool, str}
 
 # ITERABLES EXCEPT DICT
 _ITERABLE_NOT_DICT_DATA_TYPES = {list, set, tuple}
-
-# NEW TYPING check
-NEW_TYPING = sys.version_info[:3] >= (3, 7, 0)  # PEP 560
-GENERIC_TYPING = None
-if NEW_TYPING:
-    from typing import _GenericAlias
-    GENERIC_TYPING = _GenericAlias
-else:
-    from typing import GenericMeta
-    GENERIC_TYPING = GenericMeta
-
 
 
 class Model():
@@ -158,7 +147,7 @@ class ModelEncode(json.JSONEncoder):
         # Field processing
         for f_name, f_cls in zip(f_names, f_cls):
             # If the attribute is from typing
-            if type(f_cls) == GENERIC_TYPING:
+            if type(f_cls) == _GenericAlias:
                 res[f_name] = self.on_typing(obj, f_name, f_cls)
             else:
                 res[f_name] = self.on_type(obj, f_name, f_cls)
