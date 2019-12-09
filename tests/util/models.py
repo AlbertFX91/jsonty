@@ -105,6 +105,14 @@ class Car(jsonty.Model):
         self.name = name
         self.year = year
 
+
+class CarCatalog(jsonty.Model):
+    cars: List[Car]
+    
+    def __init__(self, cars):
+        self.cars = cars
+
+
 class Driver(jsonty.Model):
     name: str
     car: Car
@@ -126,3 +134,9 @@ class Counter(jsonty.Model):
     
     def __init__(self, data: Dict[str, int]):
         self.data = data
+
+class Rate(jsonty.Model):
+    rates: List[int]
+
+    def __init__(self, rates: List[int]):
+        self.rates = rates

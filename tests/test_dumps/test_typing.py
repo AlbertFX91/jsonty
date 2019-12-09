@@ -50,5 +50,49 @@ class TypingDump(unittest.TestCase):
 
         self.assertEqual(res, expected)
 
+
+    def test_rates_list(self):
+        """ Test that the Counter class which a Dict type can be dumped"""
+        # Args
+        rates = [1, 2, 3, 5, 7]
+        # Object construction
+        obj = models.Rate(rates=rates)
+         # Expected result
+        expected = json.dumps({
+            "rates": rates
+        })
+
+        # Dumps operation
+        res = obj.dumps()
+
+        self.assertEqual(res, expected)
+
+    def test_list_of_models(self):
+        """ Test that the Counter class which a Dict type can be dumped"""
+        # Args
+        c1 = models.Car(name="Car 1", year="1991")
+        c2 = models.Car(name="Car 2", year="1992")
+        cars = [c1, c2]
+        # Object construction
+        obj = models.CarCatalog(cars=cars)
+         # Expected result
+        expected = json.dumps({
+            "cars": [
+                {
+                    'name': c1.name,
+                    'year': c1.year
+                },
+                {
+                    'name': c2.name,
+                    'year': c2.year
+                }
+            ]
+        })
+
+        # Dumps operation
+        res = obj.dumps()
+
+        self.assertEqual(res, expected)
+
 if __name__ == '__main__':
     unittest.main()
