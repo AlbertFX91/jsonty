@@ -10,7 +10,7 @@ from ..context import jsonty
 # Test models
 import tests.util.models as models
 
-class InterationDump(unittest.TestCase):
+class IterationDump(unittest.TestCase):
     """Dump test operation with simple attributes via annotations"""
 
     def test_toy(self):
@@ -118,6 +118,22 @@ class InterationDump(unittest.TestCase):
         # Expected result
         expected = json.dumps({
             'ids': ids
+        })
+        
+        # Dumps operation
+        res = obj.dumps()
+        
+        self.assertEqual(res, expected)
+
+    def test_tuple_model(self):
+        """ Test that a Model with a tuple attribute can be dumped """
+        # Args
+        values = (1, 2, 3, 'text', False)
+        # Object construction
+        obj = models.ExampleTuple(values=values)
+        # Expected result
+        expected = json.dumps({
+            'values': values
         })
         
         # Dumps operation
