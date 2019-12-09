@@ -1,5 +1,8 @@
 from ..context import jsonty
 
+# Python modules
+from typing import List, Dict
+
 class Person(jsonty.Model):
     name: str
     age: int
@@ -60,6 +63,12 @@ class ExampleInt(jsonty.Model):
     def __init__(self, value):
         self.value = value
 
+class ExampleTuple(jsonty.Model):
+    values: tuple
+
+    def __init__(self, values: tuple):
+        self.values = values
+
 
 class Adult(jsonty.Model):
         name: str
@@ -75,12 +84,14 @@ class Adult(jsonty.Model):
 
 class NoModelClass():
     value: str
+
     def __init__(self, value: str):
         self.value = value
 
 class ClassWithNoModel(jsonty.Model):
     number: int
     unknown_object: NoModelClass
+
     def __init__(self, number: str):
         self.number = number
         self.unknown_object = NoModelClass(value= 'Oops')    
@@ -94,6 +105,14 @@ class Car(jsonty.Model):
         self.name = name
         self.year = year
 
+
+class CarCatalog(jsonty.Model):
+    cars: List[Car]
+    
+    def __init__(self, cars):
+        self.cars = cars
+
+
 class Driver(jsonty.Model):
     name: str
     car: Car
@@ -101,3 +120,23 @@ class Driver(jsonty.Model):
     def __init__(self, name: str, car: Car):
         self.name = name
         self.car = car
+
+class Post(jsonty.Model):
+    title: str
+    tags: List[str]
+
+    def __init__(self, title: str, tags: List[str]):
+        self.title = title
+        self.tags = tags
+
+class Counter(jsonty.Model):
+    data: Dict[str, int]
+    
+    def __init__(self, data: Dict[str, int]):
+        self.data = data
+
+class Rate(jsonty.Model):
+    rates: List[int]
+
+    def __init__(self, rates: List[int]):
+        self.rates = rates
