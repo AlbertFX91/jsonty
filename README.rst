@@ -43,8 +43,8 @@ Jsonty serialize and deserialize your custom objects by its annotations. All you
 
 Operations supported
 ####################
-
 There are a range of types that jsonty can handle such as:
+
  * Basic data types: *str, int, bool, number*
  * Iterables: *List, Dict, Set, Tuple*
  * Model Inheritance
